@@ -1,24 +1,42 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
+import './App.scss';
+import axios from 'axios'
+import Recipe from './Recipe'
 
 function App() {
+  const [food, setFood] = useState([])
+  const [search, setSearch] = useState('')
+
+  const url = `https://www.themealdb.com/api/json/v1/1/search.php?s=chicken`
+
+  useEffect(() => {
+
+    getRecipes()
+  }, [search])
+
+
+  const getRecipes = async () => {
+    const { data } = await axios.get(url)
+    setFood(data.meals)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+
+      <h2>React recipe app</h2>
+
+
+      {/* <input type="text" onChange={e => setSearch(e.target.value)} /> */}
+      {console.log(food)}
+
+      <ul>
+        {food.map(recipe => (
+          <li key={recipe.idMeal}>name</li>
+        ))}
+      </ul>
+
+    </>
   );
 }
 
